@@ -23,6 +23,10 @@ module.exports = (sequelzieInstance)=>{
         password: {
             type:DataTypes.STRING,
             allowNull:false,
+        },
+        admin:{
+            type:DataTypes.BOOLEAN,
+            defaultValue: false
         }
 
     }, {timestamps:false})
