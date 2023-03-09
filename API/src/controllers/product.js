@@ -5,7 +5,7 @@ const { Product } = require('../db')
 
 module.exports = {
     createProduct: async (req, res) => {
-        const { price, serialCode, name, stock, active } = req.body
+        const { price, serialCode, name } = req.body
 
         try {
             if (!price || !serialCode || !name) { sendError("faltan parametros obligatorios") }

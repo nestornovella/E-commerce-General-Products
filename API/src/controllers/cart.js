@@ -1,5 +1,5 @@
 const { sendError } = require("../functions/functions")
-const { User, Cart } = require("../db")
+const { User, Cart, Product } = require("../db")
 
 
 
@@ -11,11 +11,24 @@ module.exports = {
         const { UserId, productsID} = req.body
         try {
             if(!UserId || !productsID.length){sendError("faltan parametros!")}
+
+          
+
+           const prodsVal =  productsID.map(async (prod) => {
+                const product = await Product.findOne({where:{id: prod[0]}})
+                return product.price * prod[1]
+            })
+
+           const subTot = await Promise.all(prodsVal)
+           const total =subTot.reduce((acum, curr)=> acum + curr)
+            
+         
+
             const user = await User.findOne({where:{id: UserId}})
             if(user){
                 const cart = await Cart.findOne({where:{id: user.CartId}})
                 if(cart){
-                    await Cart.update({productsID:productsID}, {where:{id: cart.id}})
+                    await Cart.update({productsID:productsID, total}, {where:{id: cart.id}})
                     res.json(await Cart.findByPk(cart.id))
                 }
                 else{

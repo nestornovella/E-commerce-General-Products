@@ -1,5 +1,5 @@
 const { sendError } = require("../functions/functions")
-const { User } = require('../db')
+const { User, Transaction } = require('../db')
 
 
 module.exports ={
@@ -8,8 +8,7 @@ module.exports ={
 
     try {
        if(id){
-            const user = await User.findByPk(id)
-            console.log(user)
+            const user = await User.findOne({where:{id}, include:{model:Transaction}})
                 user    
                     ? 
                 res.status(200).json({status: 200, finded:true, user}) 
@@ -21,7 +20,7 @@ module.exports ={
             res.status(200).json({status: 200, finded:true, user})
        }
        else{
-        const users = await User.findAll()
+        const users = await User.findAll({include:{model:Transaction}})
         if(!users.length){res.json({status:200, users:"no hay usuarios registrados en la base de datos"})}
         else res.status(200).json({status: 200, users})}
 

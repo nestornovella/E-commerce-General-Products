@@ -1,14 +1,16 @@
-const { DataTypes } = require('sequelize')
+const { DataTypes, UUIDV4 } = require('sequelize')
 
 
 
 
 module.exports = (sequelizeInstance)=>{
-    sequelizeInstance.define("Cart", {
+    sequelizeInstance.define("Transaction", {
         id:{
-            type:DataTypes.INTEGER,
+            type:DataTypes.UUID,
             primaryKey:true,
-            autoIncrement: true
+            allowNull:false,
+            unique:true,
+            defaultValue:UUIDV4
         },
         productsID:{
             type:DataTypes.ARRAY(DataTypes.ARRAY(DataTypes.STRING)),

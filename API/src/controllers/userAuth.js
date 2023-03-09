@@ -1,5 +1,5 @@
 const { sendError } = require("../functions/functions")
-const { User, Cart } = require('../db')
+const { User, Cart, Transaction } = require('../db')
 const { hashText, hashCompar } = require("../helpers/encript")
 const jwt = require("jsonwebtoken")
 
@@ -29,13 +29,13 @@ module.exports = {
         const { email, password } = req.body
         try {
             if (!!!email || !!!password) { sendError("ingresar password y contraseña") }
-            const user = await User.findAll({ where: { email } }) || []
+            const user = await User.findAll({ where: { email }, include:{model: Transaction} }) || []
 
             if (!user.length) { sendError("usuario no existente!") }
             const verify = await hashCompar(password, user[0].password)
             if (verify) {
                 jwt.sign({ user }, "secretKey", (err, token) => {
-                    res.status(200).json({ user: { name: user[0].name, email: user[0].email, admin: user[0].admin }, token })
+                    res.status(200).json({ user, token })
                 })
             } else {
                 sendError("contraseña invalida")
