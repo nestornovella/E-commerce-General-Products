@@ -8,7 +8,7 @@ module.exports = {
         const { price, serialCode, name, stock, active } = req.body
 
         try {
-            if (!!!price || !!!serialCode || !!!name) { sendError("faltan parametros obligatorios") }
+            if (!price || !serialCode || !name) { sendError("faltan parametros obligatorios") }
             else {
                 const verifySerial = await Product.findAll({ where: { serialCode } }) || []
                 console.log(verifySerial)

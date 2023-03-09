@@ -14,4 +14,4 @@ const PORT = process.env.PORT || 3001
 
 
 
-app.listen(PORT, connect.sync({force:false}).then(()=>{console.log(`the server is lisen in port ${PORT}`)}))
+app.listen(PORT, connect.sync({force:true}).then(()=>{console.log(`the server is lisen in port ${PORT}`)}))

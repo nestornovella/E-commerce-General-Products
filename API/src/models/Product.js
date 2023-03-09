@@ -1,4 +1,4 @@
-const { DataTypes, STRING, UUIDV4 } = require('sequelize')
+const { DataTypes, UUIDV4 } = require('sequelize')
 
 
 
